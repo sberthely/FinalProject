@@ -19,7 +19,9 @@ public class UserSavings
         Path path = Paths.get(aFileName);
         try (BufferedReader reader = Files.newBufferedReader(path, ENCODING)) {
             line = reader.readLine();
+            reader.close();
         }
+
         return line;
     }
 
