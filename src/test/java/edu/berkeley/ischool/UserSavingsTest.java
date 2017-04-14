@@ -38,12 +38,12 @@ public class UserSavingsTest {
     }
 
     @Test
-    public void fifteenMonthlyInterestRateShouldBe1Dot25(){
+    public void fifteenMonthlyInterestRateShouldBeOnePointTwentyFive(){
         assertEquals(1.25, userSavings2.calculateMonthlyInterestRate());
     }
 
     @Test
-    public void nineDotFiveMonthlyInterestRateShouldBeDot79(){
+    public void ninePointFiveMonthlyInterestRateShouldBePointSeventyNine(){
         assertEquals(0.79, userSavings3.calculateMonthlyInterestRate());
     }
 
@@ -52,7 +52,12 @@ public class UserSavingsTest {
         assertEquals(0.0, userSavings4.calculateMonthlyInterestRate());
     }
 
-    //Test 3 - Calculate the earnings per installment --> calculateMonthlyEarning
+    @Test
+    public void sevenPointFourMonthlyInterestRateShouldBePointSixtyOne(){
+        assertEquals(0.61, userSavings5.calculateMonthlyInterestRate());
+    }
+
+    //Test 4 Delivery
     @Test
     public void userSavings1MonthlyEarningsShouldBeTwenty(){
         assertEquals(20.0, userSavings1.calculateMonthlyEarning());
@@ -63,12 +68,11 @@ public class UserSavingsTest {
         assertEquals(125.0, userSavings2.calculateMonthlyEarning());
         assertEquals(11.85, userSavings3.calculateMonthlyEarning());
         assertEquals(0.0, userSavings4.calculateMonthlyEarning());
+        assertEquals(9.29, userSavings5.calculateMonthlyEarning());
     }
 
     //Test 4 - Implemented the calculateTotalEarningsPerInstallment method and added a more complex savings decimal amounts.
     //From the tests I realised that the truncation was not working properly and the calculateMonthlyInterestRate() need to be fixed.
-
-    //Test 5 Delivery
     @Test
     public void userSavings1TotalEarningsPerInstallmentShouldBeTwoHundred(){
         assertEquals(200.0, userSavings1.calculateTotalEarningsPerInstallment());
@@ -81,5 +85,18 @@ public class UserSavingsTest {
         assertEquals(0.0, userSavings4.calculateTotalEarningsPerInstallment());
         assertEquals(83.60, userSavings5.calculateTotalEarningsPerInstallment());
     }
+
+    //Test 5 - Calculate the CUMULATIVE Amount saved at the end of all the installments.
+    //CUMULATIVE refers to the process of adding to the present installment the previous installment
+    // plus the interest it earned in the last period.
+    @Test
+    public void allUserSavingsFinalSavingAmountShouldBeAsExpected(){
+        assertEquals(21133.65, userSavings1.calculateCumulativeTotalEarnings());
+        assertEquals(228450.08, userSavings2.calculateCumulativeTotalEarnings());
+        assertEquals(32617.46, userSavings3.calculateCumulativeTotalEarnings());
+        assertEquals(30000.0, userSavings4.calculateCumulativeTotalEarnings());
+        assertEquals(14132.91, userSavings5.calculateCumulativeTotalEarnings());
+    }
+
 
 }

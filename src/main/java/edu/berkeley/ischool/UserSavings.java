@@ -37,6 +37,15 @@ public class UserSavings
         return truncateDecimal(calculateMonthlyEarning() * num_installments, 2).doubleValue();
     }
 
+    public double calculateCumulativeTotalEarnings() {
+        int inst;
+        Double cumulativeEarnings = 0.00;
+        for (inst = 0; inst < num_installments; inst++){
+            cumulativeEarnings += monthly_payment;
+            cumulativeEarnings = truncateDecimal(cumulativeEarnings + (calculateMonthlyInterestRate() * cumulativeEarnings / 100), 2).doubleValue();
+        }
+        return cumulativeEarnings;
+    }
 
     private static BigDecimal truncateDecimal(double x, int numberofDecimals)
     {
