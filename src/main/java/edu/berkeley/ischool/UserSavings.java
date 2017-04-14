@@ -26,4 +26,8 @@ public class UserSavings
     public Double calculateMonthlyInterestRate() {
         return Math.round(annual_interest_rate / YEAR_MONTHLY_INSTALLMENTS * 100) / 100.00;
     }
+
+    public double calculateMonthlyEarning() {
+        return calculateMonthlyInterestRate() * monthly_payment / 100;
+    }
 }

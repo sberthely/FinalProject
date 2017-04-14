@@ -50,4 +50,17 @@ public class UserSavingsTest {
     public void zeroMonthlyInterestRateShouldBeZero(){
         assertEquals(0.0, userSavings4.calculateMonthlyInterestRate());
     }
+
+    //Test 3 - Calculate the earnings per installment --> calculateMonthlyEarning
+    @Test
+    public void userSavings1MonthlyEarningsShouldBeTwenty(){
+        assertEquals(20.0, userSavings1.calculateMonthlyEarning());
+    }
+
+    @Test
+    public void allUserSavingsMonthlyEarningsShouldBeAsExpected(){
+        assertEquals(125.0, userSavings2.calculateMonthlyEarning());
+        assertEquals(11.85, userSavings3.calculateMonthlyEarning());
+        assertEquals(0.0, userSavings4.calculateMonthlyEarning());
+    }
 }
