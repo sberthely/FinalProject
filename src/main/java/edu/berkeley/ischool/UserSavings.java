@@ -1,14 +1,9 @@
 package edu.berkeley.ischool;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigDecimal;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 //Ask input from the user regarding interest rate and installments.
 public class UserSavings
@@ -21,7 +16,7 @@ public class UserSavings
     protected int paid_installments;
     private Double totalCumulativeSavings;
     private Double currentCumulativeSavings;
-    final static Charset ENCODING = StandardCharsets.UTF_8;
+//    final static Charset ENCODING = StandardCharsets.UTF_8;
 
     public UserSavings(String name, Double monthly_payment, Double annual_interest_rate, int num_installments){
         this.name = name;
@@ -77,13 +72,64 @@ public class UserSavings
         return cumulativeEarnings;
     }
 
+    void deleteTextFile(String aFileName) throws IOException {
+        try {
+            File f = new File(aFileName);
 
-    public String readFromTextFile(String aFileName) throws IOException {
-        String line;
-        Path path = Paths.get(System.getProperty("user.dir") + File.separator + aFileName);
-        try (BufferedReader reader = Files.newBufferedReader(path, ENCODING)) {
-            line = reader.readLine();
+            //Delete file if exists
+            f.delete();
+            //Create a new file
+            f.createNewFile();
         }
-        return line;
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    List<String> readFromTextFile(String aFileName) throws IOException {
+        List<String> lines = new ArrayList<>();
+        try (FileReader fr = new FileReader(aFileName);
+             BufferedReader reader = new BufferedReader(fr)){
+            String line;
+            while ((line = reader.readLine()) != null) {
+                lines.add(line);
+            }
+            reader.close();
+        }
+        return lines;
+    }
+
+    public boolean writeToTextFile(String aFileName) throws IOException {
+
+        try (FileWriter fw = new FileWriter(aFileName, true);
+             BufferedWriter writer = new BufferedWriter(fw);
+        ) {
+            if (checkIfFileIsEmpty(aFileName)) {
+                writer.write("name,monthly_payment,annual_interest_rate,num_installments,totalCumulativeSavings");
+                writer.newLine();
+            }
+
+            writer.append(toString());
+            writer.newLine();
+            writer.close();
+        }
+        return true;
+    }
+
+    public Boolean checkIfFileIsEmpty(String aFileName) throws IOException {
+        FileReader fr = new FileReader(aFileName);
+        BufferedReader reader = new BufferedReader(fr);
+        String line = reader.readLine();
+        reader.close();
+
+        if (line == null)
+            return true;
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return name + ',' + monthly_payment + ',' + annual_interest_rate + ',' + num_installments + ',' + totalCumulativeSavings + ',' +
+                paid_installments + ',' + currentCumulativeSavings;
     }
 }

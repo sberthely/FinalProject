@@ -3,14 +3,18 @@ package edu.berkeley.ischool;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.assertTrue;
 
 public class UserSavingsTest {
 
-    UserSavings userSavings1, userSavings2, userSavings3, userSavings4, userSavings5;
+    private UserSavings userSavings1, userSavings2, userSavings3, userSavings4, userSavings5;
     private String FILE_NAME;
 
     @Before
@@ -18,9 +22,10 @@ public class UserSavingsTest {
         userSavings1 = new UserSavings("Selenne", 2000.0, 12.0, 10);
         userSavings2 = new UserSavings("Jose", 10000.0, 15.0, 20);
         userSavings3 = new UserSavings("Ramon", 1500.0, 9.5, 20);
-        userSavings4 = new UserSavings("Ramon", 1500.0, 0.0, 20);
-        userSavings5 = new UserSavings("Ramon", 1523.11, 7.4, 9);
-        FILE_NAME = "src/output.txt";
+        userSavings4 = new UserSavings("Julia", 1500.0, 0.0, 20);
+        userSavings5 = new UserSavings("Liz", 1523.11, 7.4, 9);
+        FILE_NAME = System.getProperty("user.dir") + File.separator + "output.txt";
+
     }
 
     //Test 1 - Create a userSavings class and update paid_installments.
@@ -61,7 +66,7 @@ public class UserSavingsTest {
         assertEquals(0.61, userSavings5.calculateMonthlyInterestRate());
     }
 
-    //Test 4 Delivery
+    //Test 3 - Calculate the earnings per installment --> calculateMonthlyEarning()
     @Test
     public void userSavings1MonthlyEarningsShouldBeTwenty(){
         assertEquals(20.0, userSavings1.calculateMonthlyEarning());
@@ -120,12 +125,53 @@ public class UserSavingsTest {
         assertEquals(7756.03, userSavings5.calculateSavingsToTheCurrentPaidPeriod());
     }
 
+    //Test 7 - Create userSavings with different information, calculate the savings and save them to a file.
+    //Create the deleteTextFile(String aFileName) method to erase any existing file and create a new test.
     @Test
     public void readDataFromFileShouldWork() throws IOException {
-//        UserSavings userSavings = new UserSavings();
-
-        assertEquals("16", userSavings1.readFromTextFile(FILE_NAME));
-
+        userSavings1.deleteTextFile(FILE_NAME);
+        assertTrue(userSavings1.checkIfFileIsEmpty(FILE_NAME));
     }
 
+    public void createAllUserSavingsToTheSameCVSFile() throws IOException {
+
+        userSavings1.calculateCumulativeTotalEarnings();
+        userSavings2.calculateCumulativeTotalEarnings();
+        userSavings3.calculateCumulativeTotalEarnings();
+        userSavings4.calculateCumulativeTotalEarnings();
+        userSavings5.calculateCumulativeTotalEarnings();
+
+        userSavings1.updatePaidInstallments(5);
+        userSavings2.updatePaidInstallments(5);
+        userSavings3.updatePaidInstallments(5);
+        userSavings4.updatePaidInstallments(5);
+        userSavings5.updatePaidInstallments(5);
+
+        userSavings1.calculateSavingsToTheCurrentPaidPeriod();
+        userSavings2.calculateSavingsToTheCurrentPaidPeriod();
+        userSavings3.calculateSavingsToTheCurrentPaidPeriod();
+        userSavings4.calculateSavingsToTheCurrentPaidPeriod();
+        userSavings5.calculateSavingsToTheCurrentPaidPeriod();
+
+        userSavings1.writeToTextFile(FILE_NAME);
+        userSavings2.writeToTextFile(FILE_NAME);
+        userSavings3.writeToTextFile(FILE_NAME);
+        userSavings4.writeToTextFile(FILE_NAME);
+        userSavings5.writeToTextFile(FILE_NAME);
+    }
+
+    @Test
+    public void saveAllUserSavingsToTheSameCVSFile() throws IOException {
+        createAllUserSavingsToTheSameCVSFile();
+        List<String> lines = new ArrayList<>();
+
+        lines.add("name,monthly_payment,annual_interest_rate,num_installments,totalCumulativeSavings");
+        lines.add("Selenne,2000.0,12.0,10,21133.65,5,10304.02");
+        lines.add("Jose,10000.0,15.0,20,228450.08,5,51906.53");
+        lines.add("Ramon,1500.0,9.5,20,32617.46,5,7679.62");
+        lines.add("Julia,1500.0,0.0,20,30000.0,5,7500.0");
+        lines.add("Liz,1523.11,7.4,9,14132.91,5,7756.03");
+
+        assertEquals(lines, userSavings5.readFromTextFile(FILE_NAME));
+    }
 }
