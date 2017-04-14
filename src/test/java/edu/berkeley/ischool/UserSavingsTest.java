@@ -3,12 +3,15 @@ package edu.berkeley.ischool;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
+
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertFalse;
 
 public class UserSavingsTest {
 
     UserSavings userSavings1, userSavings2, userSavings3, userSavings4, userSavings5;
+    private String FILE_NAME;
 
     @Before
     public void initObjects(){
@@ -17,6 +20,7 @@ public class UserSavingsTest {
         userSavings3 = new UserSavings("Ramon", 1500.0, 9.5, 20);
         userSavings4 = new UserSavings("Ramon", 1500.0, 0.0, 20);
         userSavings5 = new UserSavings("Ramon", 1523.11, 7.4, 9);
+        FILE_NAME = "/Users/SelBerthely/IdeaProjects/FinalProject/src/output.txt";
     }
 
     //Test 1 - Create a userSavings class and update paid_installments.
@@ -114,6 +118,14 @@ public class UserSavingsTest {
         assertEquals(7679.62, userSavings3.calculateSavingsToTheCurrentPaidPeriod());
         assertEquals(7500.0, userSavings4.calculateSavingsToTheCurrentPaidPeriod());
         assertEquals(7756.03, userSavings5.calculateSavingsToTheCurrentPaidPeriod());
+    }
+
+    @Test
+    public void readDataFromFileShouldWork() throws IOException {
+//        UserSavings userSavings = new UserSavings();
+
+        assertEquals("16", userSavings1.readFromTextFile(FILE_NAME));
+
     }
 
 }
