@@ -98,5 +98,22 @@ public class UserSavingsTest {
         assertEquals(14132.91, userSavings5.calculateCumulativeTotalEarnings());
     }
 
+    //Test 6 - Created a generic method that calculates cumulative savings, and receives the number of
+    // installments as a parameter, calculateCumulativeEarnings().
+    // This method is used now in calculateSavingsToTheCurrentPaidPeriod() and calculateCumulativeTotalEarnings().
+    @Test
+    public void userSavings1ShouldReturnExpectedValueForFifthInstallment() {
+        userSavings1.updatePaidInstallments(5);
+        userSavings2.updatePaidInstallments(5);
+        userSavings3.updatePaidInstallments(5);
+        userSavings4.updatePaidInstallments(5);
+        userSavings5.updatePaidInstallments(5);
+
+        assertEquals(10304.02, userSavings1.calculateSavingsToTheCurrentPaidPeriod());
+        assertEquals(51906.53, userSavings2.calculateSavingsToTheCurrentPaidPeriod());
+        assertEquals(7679.62, userSavings3.calculateSavingsToTheCurrentPaidPeriod());
+        assertEquals(7500.0, userSavings4.calculateSavingsToTheCurrentPaidPeriod());
+        assertEquals(7756.03, userSavings5.calculateSavingsToTheCurrentPaidPeriod());
+    }
 
 }

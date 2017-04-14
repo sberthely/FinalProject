@@ -5,12 +5,14 @@ import java.math.BigDecimal;
 //Ask input from the user regarding interest rate and installments.
 public class UserSavings
 {
+    final static int YEAR_MONTHLY_INSTALLMENTS = 12;
     private String name;
     private Double monthly_payment;
     private Double annual_interest_rate;
     private int num_installments;
     protected int paid_installments;
-    final static int YEAR_MONTHLY_INSTALLMENTS = 12;
+    private Double totalCumulativeSavings;
+    private Double currentCumulativeSavings;
 
     public UserSavings(String name, Double monthly_payment, Double annual_interest_rate, int num_installments){
         this.name = name;
@@ -38,13 +40,8 @@ public class UserSavings
     }
 
     public double calculateCumulativeTotalEarnings() {
-        int inst;
-        Double cumulativeEarnings = 0.00;
-        for (inst = 0; inst < num_installments; inst++){
-            cumulativeEarnings += monthly_payment;
-            cumulativeEarnings = truncateDecimal(cumulativeEarnings + (calculateMonthlyInterestRate() * cumulativeEarnings / 100), 2).doubleValue();
-        }
-        return cumulativeEarnings;
+        totalCumulativeSavings = calculateCumulativeEarnings(num_installments);
+        return totalCumulativeSavings;
     }
 
     private static BigDecimal truncateDecimal(double x, int numberofDecimals)
@@ -54,5 +51,20 @@ public class UserSavings
         } else {
             return new BigDecimal(String.valueOf(x)).setScale(numberofDecimals, BigDecimal.ROUND_CEILING);
         }
+    }
+
+    public double calculateSavingsToTheCurrentPaidPeriod() {
+        currentCumulativeSavings = calculateCumulativeEarnings(paid_installments);
+        return currentCumulativeSavings;
+    }
+
+    public double calculateCumulativeEarnings(int installments) {
+        int inst;
+        Double cumulativeEarnings = 0.00;
+        for (inst = 0; inst < installments; inst++){
+            cumulativeEarnings += monthly_payment;
+            cumulativeEarnings = truncateDecimal(cumulativeEarnings + (calculateMonthlyInterestRate() * cumulativeEarnings / 100), 2).doubleValue();
+        }
+        return cumulativeEarnings;
     }
 }
