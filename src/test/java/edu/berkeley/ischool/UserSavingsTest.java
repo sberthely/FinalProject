@@ -8,7 +8,7 @@ import static junit.framework.TestCase.assertFalse;
 
 public class UserSavingsTest {
 
-    UserSavings userSavings1, userSavings2, userSavings3, userSavings4;
+    UserSavings userSavings1, userSavings2, userSavings3, userSavings4, userSavings5;
 
     @Before
     public void initObjects(){
@@ -16,6 +16,7 @@ public class UserSavingsTest {
         userSavings2 = new UserSavings("Jose", 10000.0, 15.0, 20);
         userSavings3 = new UserSavings("Ramon", 1500.0, 9.5, 20);
         userSavings4 = new UserSavings("Ramon", 1500.0, 0.0, 20);
+        userSavings5 = new UserSavings("Ramon", 1523.11, 7.4, 9);
     }
 
     //Test 1 - Create a userSavings class and update paid_installments.
@@ -63,4 +64,22 @@ public class UserSavingsTest {
         assertEquals(11.85, userSavings3.calculateMonthlyEarning());
         assertEquals(0.0, userSavings4.calculateMonthlyEarning());
     }
+
+    //Test 4 - Implemented the calculateTotalEarningsPerInstallment method and added a more complex savings decimal amounts.
+    //From the tests I realised that the truncation was not working properly and the calculateMonthlyInterestRate() need to be fixed.
+
+    //Test 5 Delivery
+    @Test
+    public void userSavings1TotalEarningsPerInstallmentShouldBeTwoHundred(){
+        assertEquals(200.0, userSavings1.calculateTotalEarningsPerInstallment());
+    }
+
+    @Test
+    public void allUserSavingsTotalEarningsPerInstallmentShouldBeAsExpected(){
+        assertEquals(2500.0, userSavings2.calculateTotalEarningsPerInstallment());
+        assertEquals(237.0, userSavings3.calculateTotalEarningsPerInstallment());
+        assertEquals(0.0, userSavings4.calculateTotalEarningsPerInstallment());
+        assertEquals(83.60, userSavings5.calculateTotalEarningsPerInstallment());
+    }
+
 }

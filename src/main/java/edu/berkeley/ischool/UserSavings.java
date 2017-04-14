@@ -1,5 +1,7 @@
 package edu.berkeley.ischool;
 
+import java.math.BigDecimal;
+
 //Ask input from the user regarding interest rate and installments.
 public class UserSavings
 {
@@ -24,10 +26,24 @@ public class UserSavings
     }
 
     public Double calculateMonthlyInterestRate() {
-        return Math.round(annual_interest_rate / YEAR_MONTHLY_INSTALLMENTS * 100) / 100.00;
+        return truncateDecimal(annual_interest_rate / YEAR_MONTHLY_INSTALLMENTS, 2).doubleValue();
     }
 
-    public double calculateMonthlyEarning() {
-        return calculateMonthlyInterestRate() * monthly_payment / 100;
+    public Double calculateMonthlyEarning() {
+        return truncateDecimal(calculateMonthlyInterestRate() * monthly_payment / 100, 2).doubleValue();
+    }
+
+    public Double calculateTotalEarningsPerInstallment() {
+        return truncateDecimal(calculateMonthlyEarning() * num_installments, 2).doubleValue();
+    }
+
+
+    private static BigDecimal truncateDecimal(double x, int numberofDecimals)
+    {
+        if ( x > 0) {
+            return new BigDecimal(String.valueOf(x)).setScale(numberofDecimals, BigDecimal.ROUND_FLOOR);
+        } else {
+            return new BigDecimal(String.valueOf(x)).setScale(numberofDecimals, BigDecimal.ROUND_CEILING);
+        }
     }
 }
