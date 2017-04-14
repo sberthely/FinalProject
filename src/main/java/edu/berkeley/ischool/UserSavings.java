@@ -1,6 +1,7 @@
 package edu.berkeley.ischool;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
@@ -79,7 +80,7 @@ public class UserSavings
 
     public String readFromTextFile(String aFileName) throws IOException {
         String line;
-        Path path = Paths.get(aFileName);
+        Path path = Paths.get(System.getProperty("user.dir") + File.separator + aFileName);
         try (BufferedReader reader = Files.newBufferedReader(path, ENCODING)) {
             line = reader.readLine();
         }

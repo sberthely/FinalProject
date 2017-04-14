@@ -20,7 +20,7 @@ public class UserSavingsTest {
         userSavings3 = new UserSavings("Ramon", 1500.0, 9.5, 20);
         userSavings4 = new UserSavings("Ramon", 1500.0, 0.0, 20);
         userSavings5 = new UserSavings("Ramon", 1523.11, 7.4, 9);
-        FILE_NAME = "/Users/SelBerthely/IdeaProjects/FinalProject/src/output.txt";
+        FILE_NAME = "src/output.txt";
     }
 
     //Test 1 - Create a userSavings class and update paid_installments.
