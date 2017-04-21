@@ -14,7 +14,7 @@ import static junit.framework.TestCase.assertTrue;
 
 public class UserSavingsTest {
 
-    private UserSavings userSavings1, userSavings2, userSavings3, userSavings4, userSavings5;
+    private UserSavings userSavings1, userSavings2, userSavings3, userSavings4, userSavings5, userSavings6;
     private String FILE_NAME;
     private UserMortgage userMortgage1, userMortgage2;
 
@@ -200,5 +200,33 @@ public class UserSavingsTest {
         userMortgage2.updatePaidInstallments(180);
         assertEquals(749896.43, userMortgage2.calculateStillToPayToCurrentPeriod());
 
+    }
+
+    //Test 10 - Display comparative information showing how much does the user could've saved if
+    // he have saved that amount instead of paying mortgage for all that time.
+    @Test
+    public void userMortgageVersusUserSavingsDifferencesShouldBeAsExpected() throws IOException {
+
+        userMortgage1.updatePaidInstallments(10);
+        userMortgage1.calculateStillToPayToCurrentPeriod();
+
+        userSavings6 = new UserSavings(userMortgage1);
+        userSavings6.calculateCumulativeTotalEarnings();
+        userSavings6.calculateSavingsToTheCurrentPaidPeriod();
+
+        userSavings6.retrieveFormattedUserData();
+        userMortgage1.retrieveFormattedUserData();
+
+        userMortgage1.updatePaidInstallments(100);
+        userMortgage1.calculateStillToPayToCurrentPeriod();
+
+        userSavings6 = new UserSavings(userMortgage1);
+        userSavings6.calculateCumulativeTotalEarnings();
+        userSavings6.calculateSavingsToTheCurrentPaidPeriod();
+
+        userSavings6.retrieveFormattedUserData();
+        userMortgage1.retrieveFormattedUserData();
+
+        assertEquals(760897.81, userSavings6.unsavedMoney());
     }
 }

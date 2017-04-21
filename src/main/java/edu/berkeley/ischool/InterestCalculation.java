@@ -2,6 +2,7 @@ package edu.berkeley.ischool;
 
 import java.io.*;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,9 @@ public class InterestCalculation {
     protected Double annual_interest_rate;
     protected int num_installments;
     protected int paid_installments;
+    protected Double monthly_payment;
+    protected Double loan_amount;
+    protected Double totalCumulativeSavings;
 
     public InterestCalculation(Double annual_interest_rate, String name, int num_installments) {
         this.annual_interest_rate = annual_interest_rate;
@@ -91,27 +95,28 @@ public class InterestCalculation {
         return false;
     }
 
-    public void retrieveFormattedUserData(String aFileName) throws IOException {
-        String[] cells;
+    public void retrieveFormattedUserData() throws IOException {
 
-        FileReader fr = new FileReader(aFileName);
-        BufferedReader reader = new BufferedReader(fr);
-        String line;
-        while ((line = reader.readLine()) != null) {
-            cells = line.split(",");
-            if (cells[0].equals(name)) {
-                System.out.println("Name: " + cells[0]);
-                String currentSaved = String.format("$%10.2f", Double.parseDouble(cells[6]));
-                System.out.println("Current Saved Amount: " + currentSaved);
-                String finalAmount = String.format("$%10.2f", Double.parseDouble(cells[4]));
-                System.out.println("Final Amount to be Saved: " + finalAmount);
+        DecimalFormat formatter = new DecimalFormat("#,###.00");
+        System.out.println("----GENERAL USER INFO----");
+        System.out.println("Name: " + name);
+        System.out.println("Annual Interest Rate: " + annual_interest_rate);
+        System.out.println("Number of Installments: " + num_installments + " months");
+        System.out.println("Paid Installments: " + paid_installments + " months");
+        System.out.println("Monthly Payment: " + formatter.format(monthly_payment) + '\n');
+        System.out.println("Unsaved Money: " + formatter.format(unsavedMoney()) + '\n');
+//        String currentSaved = String.format("$%10.2f", Double.parseDouble(cells[6]));
+//        System.out.println("Current Saved Amount: " + currentSaved);
+//        String finalAmount = String.format("$%10.2f", Double.parseDouble(cells[4]));
+//        System.out.println("Final Amount to be Saved: " + finalAmount);
+//
+//        int installmentsToGo = Integer.parseInt(cells[3]) -  Integer.parseInt(cells[5]);
+//        String installmentPayment = String.format("$%10.2f", Double.parseDouble(cells[1]));
+//        System.out.println(String.valueOf(installmentsToGo) + " remaining installments of " + installmentPayment + "\n");
 
-                int installmentsToGo = Integer.parseInt(cells[3]) -  Integer.parseInt(cells[5]);
-                String installmentPayment = String.format("$%10.2f", Double.parseDouble(cells[1]));
-                System.out.println(String.valueOf(installmentsToGo) + " remaining installments of " + installmentPayment + "\n");
-            }
+    }
 
-        }
-        reader.close();
+    public double unsavedMoney() {
+        return totalCumulativeSavings - loan_amount;
     }
 }
