@@ -1,11 +1,8 @@
 package edu.berkeley.ischool;
 
-import java.math.BigDecimal;
-
-//Ask input from the user regarding interest rate and installments.
+//Calculates user savings at the end of a period according to monthly payment, interest rate and number of installments.
 public class UserSavings extends InterestCalculation {
 
-    final static int YEAR_MONTHLY_INSTALLMENTS = 12;
     protected Double monthly_payment;
     private Double totalCumulativeSavings;
     private Double currentCumulativeSavings;
@@ -15,24 +12,9 @@ public class UserSavings extends InterestCalculation {
         this.monthly_payment = monthly_payment;
     }
 
-//    private static BigDecimal truncateDecimal(double x, int numberofDecimals)
-//    {
-//        if ( x > 0) {
-//            return new BigDecimal(String.valueOf(x)).setScale(numberofDecimals, BigDecimal.ROUND_FLOOR);
-//        } else {
-//            return new BigDecimal(String.valueOf(x)).setScale(numberofDecimals, BigDecimal.ROUND_CEILING);
-//        }
-//    }
-
     public boolean updatePaidInstallments(int paid_installments){
-        if (this.num_installments < paid_installments) return false;
-        this.paid_installments = paid_installments;
-        return true;
+       return super.updatePaidInstallments(paid_installments);
     }
-
-//    public Double calculateMonthlyInterestRate() {
-//        return truncateDecimal(annual_interest_rate / YEAR_MONTHLY_INSTALLMENTS, 2).doubleValue();
-//    }
 
     public Double calculateMonthlyEarning() {
         return truncateDecimal(calculateMonthlyInterestRate() * monthly_payment / 100, 2).doubleValue();
@@ -62,87 +44,10 @@ public class UserSavings extends InterestCalculation {
         return cumulativeEarnings;
     }
 
-//    void deleteTextFile(String aFileName) throws IOException {
-//        try {
-//            File f = new File(aFileName);
-//
-//            //Delete file if exists
-//            f.delete();
-//            //Create a new file
-//            f.createNewFile();
-//        }
-//        catch(Exception e) {
-//            e.printStackTrace();
-//        }
-//    }List<String> readFromTextFile(String aFileName) throws IOException {
-//        List<String> lines = new ArrayList<>();
-//        try (FileReader fr = new FileReader(aFileName);
-//             BufferedReader reader = new BufferedReader(fr)){
-//            String line;
-//            while ((line = reader.readLine()) != null) {
-//                lines.add(line);
-//            }
-//            reader.close();
-//        }
-//        return lines;
-//    }
-//
-//    public boolean writeToTextFile(String aFileName) throws IOException {
-//
-//        try (FileWriter fw = new FileWriter(aFileName, true);
-//             BufferedWriter writer = new BufferedWriter(fw)
-//        ) {
-//            if (checkIfFileIsEmpty(aFileName)) {
-//                writer.write("name,monthly_payment,annual_interest_rate,num_installments,totalCumulativeSavings");
-//                writer.newLine();
-//            }
-//
-//            writer.append(toString());
-//            writer.newLine();
-//            writer.close();
-//        }
-//        return true;
-//    }
-//
-//    public Boolean checkIfFileIsEmpty(String aFileName) throws IOException {
-//        FileReader fr = new FileReader(aFileName);
-//        BufferedReader reader = new BufferedReader(fr);
-//        String line = reader.readLine();
-//        reader.close();
-//
-//        if (line == null)
-//            return true;
-//        return false;
-//    }
-
     @Override
     public String toString() {
         return name + ',' + monthly_payment + ',' + annual_interest_rate + ',' + num_installments + ',' + totalCumulativeSavings + ',' +
                 paid_installments + ',' + currentCumulativeSavings;
     }
-
-//    public void retrieveFormattedUserData(String aFileName) throws IOException {
-//        String[] cells;
-//
-//        FileReader fr = new FileReader(aFileName);
-//        BufferedReader reader = new BufferedReader(fr);
-//        String line;
-//        while ((line = reader.readLine()) != null) {
-//            cells = line.split(",");
-//            if (cells[0].equals(name)) {
-//                System.out.println("Name: " + cells[0]);
-//                String currentSaved = String.format("$%10.2f", Double.parseDouble(cells[6]));
-//                System.out.println("Current Saved Amount: " + currentSaved);
-//                String finalAmount = String.format("$%10.2f", Double.parseDouble(cells[4]));
-//                System.out.println("Final Amount to be Saved: " + finalAmount);
-//
-//                int installmentsToGo = Integer.parseInt(cells[3]) -  Integer.parseInt(cells[5]);
-//                String installmentPayment = String.format("$%10.2f", Double.parseDouble(cells[1]));
-//                System.out.println(String.valueOf(installmentsToGo) + " remaining installments of " + installmentPayment + "\n");
-//            }
-//
-//        }
-//        reader.close();
-//    }
 
 }

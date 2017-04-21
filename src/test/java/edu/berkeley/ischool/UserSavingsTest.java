@@ -181,10 +181,24 @@ public class UserSavingsTest {
     //Test 8 - Create InterestCalculator super class for UserSavings and UserMortgage and
     // create the calculateMonthlyPayment for Mortgages.
     @Test
-    public void userSavingsDataShouldBeDisplayedFromFile() throws IOException {
-        assertEquals(2954.21, userMortgage1.calculateMonthlyPayment());
-        assertEquals(7337.64, userMortgage2.calculateMonthlyPayment());
+    public void userMortgageMonthlyPaymentShouldBeAsExpected() throws IOException {
+        assertEquals(2938.14, userMortgage1.calculateMonthlyPayment());
+        assertEquals(7327.9, userMortgage2.calculateMonthlyPayment());
     }
 
+    //Test 9 - Calculate the amount that the user has still to pay, and other CUMULATIVE amounts.
+    // also corrected calculateMonthlyPayment() method, to adjust num_installments on the payment formula.
+    @Test
+    public void userMortgageStillToPayShouldBeAsExpected() throws IOException {
+        userMortgage1.updatePaidInstallments(5);
+        assertEquals(295750.21, userMortgage1.calculateStillToPayToCurrentPeriod());
+        userMortgage1.updatePaidInstallments(179);
+        assertEquals(2390.68, userMortgage1.calculateStillToPayToCurrentPeriod());
+        userMortgage1.updatePaidInstallments(180);
+        assertEquals(0.0, userMortgage1.calculateStillToPayToCurrentPeriod());
 
+        userMortgage2.updatePaidInstallments(180);
+        assertEquals(749896.43, userMortgage2.calculateStillToPayToCurrentPeriod());
+
+    }
 }

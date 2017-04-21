@@ -5,18 +5,13 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by SelBerthely on 4/20/17.
- */
+//Superclass that holds the common properties between userSavings and UserMortgage calculations.
 public class InterestCalculation {
     final static int YEAR_MONTHLY_INSTALLMENTS = 12;
     protected String name;
-//    protected Double monthly_payment;
     protected Double annual_interest_rate;
     protected int num_installments;
     protected int paid_installments;
-//    private Double totalCumulativeSavings;
-//    private Double currentCumulativeSavings;
 
     public InterestCalculation(Double annual_interest_rate, String name, int num_installments) {
         this.annual_interest_rate = annual_interest_rate;
@@ -33,43 +28,15 @@ public class InterestCalculation {
         }
     }
 
-//    public boolean updatePaidInstallments(int paid_installments){
-//        if (this.num_installments < paid_installments) return false;
-//        this.paid_installments = paid_installments;
-//        return true;
-//    }
+    public boolean updatePaidInstallments(int paid_installments){
+        if (this.num_installments < paid_installments) return false;
+        this.paid_installments = paid_installments;
+        return true;
+    }
 
     public Double calculateMonthlyInterestRate() {
         return truncateDecimal(annual_interest_rate / YEAR_MONTHLY_INSTALLMENTS, 2).doubleValue();
     }
-//
-//    public Double calculateMonthlyEarning() {
-//        return truncateDecimal(calculateMonthlyInterestRate() * monthly_payment / 100, 2).doubleValue();
-//    }
-//
-//    public Double calculateTotalEarningsPerInstallment() {
-//        return truncateDecimal(calculateMonthlyEarning() * num_installments, 2).doubleValue();
-//    }
-//
-//    public double calculateCumulativeTotalEarnings() {
-//        totalCumulativeSavings = calculateCumulativeEarnings(num_installments);
-//        return totalCumulativeSavings;
-//    }
-//
-//    public double calculateSavingsToTheCurrentPaidPeriod() {
-//        currentCumulativeSavings = calculateCumulativeEarnings(paid_installments);
-//        return currentCumulativeSavings;
-//    }
-//
-//    public double calculateCumulativeEarnings(int installments) {
-//        int inst;
-//        Double cumulativeEarnings = 0.00;
-//        for (inst = 0; inst < installments; inst++){
-//            cumulativeEarnings += monthly_payment;
-//            cumulativeEarnings = truncateDecimal(cumulativeEarnings + (calculateMonthlyInterestRate() * cumulativeEarnings / 100), 2).doubleValue();
-//        }
-//        return cumulativeEarnings;
-//    }
 
     void deleteTextFile(String aFileName) throws IOException {
         try {
@@ -123,12 +90,6 @@ public class InterestCalculation {
             return true;
         return false;
     }
-
-//    @Override
-//    public String toString() {
-//        return name + ',' + monthly_payment + ',' + annual_interest_rate + ',' + num_installments + ',' + totalCumulativeSavings + ',' +
-//                paid_installments + ',' + currentCumulativeSavings;
-//    }
 
     public void retrieveFormattedUserData(String aFileName) throws IOException {
         String[] cells;
