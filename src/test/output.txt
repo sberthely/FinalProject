@@ -1,6 +1,0 @@
-name,monthly_payment,annual_interest_rate,num_installments,totalCumulativeSavings
-Selenne,2000.0,12.0,10,21133.65,5,10304.02
-Jose,10000.0,15.0,20,228450.08,5,51906.53
-Ramon,1500.0,9.5,20,32617.46,5,7679.62
-Julia,1500.0,0.0,20,30000.0,5,7500.0
-Liz,1523.11,7.4,9,14132.91,5,7756.03

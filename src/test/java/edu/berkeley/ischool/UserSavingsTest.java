@@ -16,6 +16,7 @@ public class UserSavingsTest {
 
     private UserSavings userSavings1, userSavings2, userSavings3, userSavings4, userSavings5;
     private String FILE_NAME;
+    private UserMortgage userMortgage1, userMortgage2;
 
     @Before
     public void initObjects(){
@@ -24,6 +25,8 @@ public class UserSavingsTest {
         userSavings3 = new UserSavings("Ramon", 1500.0, 9.5, 20);
         userSavings4 = new UserSavings("Julia", 1500.0, 0.0, 20);
         userSavings5 = new UserSavings("Liz", 1523.11, 7.4, 9);
+        userMortgage1 = new UserMortgage("Rodrigo", 300000.00, 8.5, 180);
+        userMortgage2 = new UserMortgage("Alexa", 1000000.00, 8.0, 360);
         FILE_NAME = System.getProperty("user.dir") + File.separator + "output.txt";
 
     }
@@ -174,4 +177,14 @@ public class UserSavingsTest {
 
         assertEquals(lines, userSavings5.readFromTextFile(FILE_NAME));
     }
+
+    //Test 8 - Create InterestCalculator super class for UserSavings and UserMortgage and
+    // create the calculateMonthlyPayment for Mortgages.
+    @Test
+    public void userSavingsDataShouldBeDisplayedFromFile() throws IOException {
+        assertEquals(2954.21, userMortgage1.calculateMonthlyPayment());
+        assertEquals(7337.64, userMortgage2.calculateMonthlyPayment());
+    }
+
+
 }
